@@ -1,7 +1,12 @@
+import PaymentComponent from '@/components/PaymentCompoenent'
 import React from 'react'
 
 const HomePage = () => {
-	return <div>HomePage</div>
+	return (
+		<div>
+			<PaymentComponent />
+		</div>
+	)
 }
 
 export default HomePage
