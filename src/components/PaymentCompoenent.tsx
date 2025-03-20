@@ -171,7 +171,10 @@ export default function PaymentComponent() {
 
 					{/* Username */}
 					<div>
-						<label className='block font-medium'>Username</label>
+						<label className='block font-medium'>
+							{' '}
+							Betting User ID
+						</label>
 						<input
 							type='text'
 							name='username'
