@@ -51,8 +51,8 @@ export default function PaymentsPage() {
 			<div className='overflow-x-auto bg-white shadow-lg rounded-lg'>
 				<table className='min-w-full table-auto'>
 					<thead>
-						<tr className='bg-gray-100'>
-							<th className='p-3 text-left'>Username</th>
+						<tr className='bg-primary text-white'>
+							<th className='p-3 text-left'>User ID</th>
 							<th className='p-3 text-left'>Email/Phone</th>
 							<th className='p-3 text-left'>Payment Number</th>
 							<th className='p-3 text-left'>Amount</th>

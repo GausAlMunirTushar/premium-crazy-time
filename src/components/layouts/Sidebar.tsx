@@ -10,7 +10,8 @@ import {
 	Banknote,
 	Component,
 	ChevronDown,
-	ChevronRight
+	ChevronRight,
+	BadgeCent
 } from 'lucide-react'
 import Image from 'next/image'
 
@@ -28,13 +29,9 @@ const menuItems: MenuItem[] = [
 		href: `/dashboard`
 	},
 	{
-		title: 'Accounting',
-		icon: <Banknote className='w-5 h-5' />,
-		subMenu: [
-			{ title: 'Account List', href: `/account-list` },
-			{ title: 'Create New Account', href: `/create-new-account` },
-			{ title: 'Account Group', href: `/account-group` }
-		]
+		title: 'Payments',
+		icon: <BadgeCent className='w-5 h-5' />,
+		href: `/payments`
 	}
 ]
 
@@ -82,30 +79,9 @@ export default function Sidebar({ isExpanded, setIsExpanded }: SidebarProps) {
 
 			{/* Logo */}
 			<div className='flex items-center gap-1 my-2'>
-				{/* <Image
-					src='/images/orbit_logo.svg'
-					alt='Logo'
-					width={32}
-					height={32}
-					className='w-14'
-				/> */}
-				<Image
-					alt='logo'
-					width={32}
-					height={32}
-					src='/images/orbit_logo.png'
-					className='w-16 dark:hidden'
-				/>
-				<Image
-					alt='logo-dark'
-					width={32}
-					height={32}
-					src='/images/orbit_dark_logo.png'
-					className='w-14 py-2 pl-4 hidden dark:block'
-				/>
 				{isExpanded && (
-					<span className='text-3xl font-semibold text-gray-700 dark:text-text-primary'>
-						Finance
+					<span className='text-3xl py-2 px-2 font-semibold text-gray-700 dark:text-text-primary'>
+						Crazy Time
 					</span>
 				)}
 			</div>
@@ -119,7 +95,7 @@ export default function Sidebar({ isExpanded, setIsExpanded }: SidebarProps) {
 								href={item.href}
 								className={`flex items-center gap-2 p-2 rounded-md transition-all duration-300 hover:bg-gray-200 dark:hover:bg-bg_secondary  text-gray-500 dark:text-text-primary${
 									pathname === item.href
-										? 'bg-primary-500 text-white font-semibold'
+										? ' bg-primary text-white font-semibold'
 										: ''
 								}`}
 							>
