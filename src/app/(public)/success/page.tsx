@@ -1,18 +1,32 @@
-import Image from 'next/image'
+'use client'
+
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 export default function SuccessPage() {
+	const router = useRouter()
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			router.push('/')
+		}, 15000)
+
+		return () => clearTimeout(timer)
+	}, [router])
+
 	return (
 		<section className='flex items-center justify-center min-h-screen bg-gray-100'>
 			<div className='text-center p-6 bg-white shadow-lg rounded-lg max-w-md'>
-				<h1 className='text-2xl font-bold mb-4'>Payment Successful!</h1>
+				<h1 className='text-2xl font-bold mb-4'>Payment Pending!</h1>
 				<p className='text-lg text-gray-600'>
 					Your payment has been successfully processed. Thank you for
 					using our service!
 				</p>
+
 				<Link
 					href={'/'}
-					className='mt-8 p-2 bg-green-500 text-white rounded-md'
+					className='mt-8 inline-block p-2 bg-green-500 text-white rounded-md'
 				>
 					Go Back to Home
 				</Link>

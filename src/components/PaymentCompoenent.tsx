@@ -11,7 +11,7 @@ const paymentMethods = [
 		name: 'bKash',
 		color: 'bg-pink-500',
 		logo: '/images/bkash.svg',
-		number: '01709480483434',
+		number: '01620106996',
 		qr: '/images/bkash-qr.jpeg'
 	},
 	{
@@ -19,17 +19,17 @@ const paymentMethods = [
 		name: 'Nagad',
 		color: 'bg-red-500',
 		logo: '/images/nagad.svg',
-		number: '017XXXXXXXX',
+		number: '01620106996',
 		qr: '/images/nagad-qr.png'
-	},
-	{
-		id: 'rocket',
-		name: 'Rocket',
-		color: 'bg-purple-400',
-		logo: '/images/rocket.svg',
-		number: '017XXXXXXXX',
-		qr: '/images/rocket-qr.png'
 	}
+	// {
+	// 	id: 'rocket',
+	// 	name: 'Rocket',
+	// 	color: 'bg-purple-400',
+	// 	logo: '/images/rocket.svg',
+	// 	number: '017XXXXXXXX',
+	// 	qr: '/images/rocket-qr.png'
+	// }
 ]
 
 const bettingSites = [
@@ -171,9 +171,8 @@ export default function PaymentComponent() {
 		<section className='flex items-center justify-center min-h-screen bg-gray-100 p-4'>
 			<div className='max-w-xl w-full bg-white shadow-lg rounded-lg p-6'>
 				{/* Tabs */}
-				<h1 className='text-center text-2xl mb-2'>
-					Select Payment Method
-				</h1>
+				<h1 className='text-center text-2xl '>Select Payment Method</h1>
+				<p className='text-center mb-2'>(Send Money)</p>
 				<div className='flex justify-center space-x-4 mb-6'>
 					{paymentMethods.map(method => (
 						<button
@@ -197,16 +196,16 @@ export default function PaymentComponent() {
 				</div>
 
 				{/* Payment Info */}
-				<div className='bg-gray-100 p-4 rounded-md mb-4 text-center'>
-					<h2 className='font-semibold'>Send Payment To:</h2>
+				<div className='bg-green-100 p-4 rounded-md mb-4 text-center'>
+					<h2 className='font-semibold'>Send Money To:</h2>
 					<p className='text-lg font-bold'>{selectedTab.number}</p>
-					<Image
+					{/* <Image
 						src={selectedTab.qr}
 						alt={`${selectedTab.name} QR Code`}
 						width={150}
 						height={150}
 						className='mx-auto mt-2'
-					/>
+					/> */}
 				</div>
 
 				{/* Form */}
@@ -263,8 +262,12 @@ export default function PaymentComponent() {
 						<label className='block font-medium'>
 							Payment Number
 						</label>
+						<p className='text-sm my-1 text-green-600 '>
+							যে নাম্বার থেকে টাকা পাঠিয়েছেন, সেটি এখানে লিখুন
+						</p>
+
 						<input
-							type='text'
+							type='number'
 							name='paymentNumber'
 							placeholder='Enter Payment Number'
 							value={formData.paymentNumber}
@@ -277,6 +280,9 @@ export default function PaymentComponent() {
 						<label className='block font-medium'>
 							Deposit Amount
 						</label>
+						<p className='text-sm my-1 text-green-600 '>
+							Min Deposit BDT 1000.00 to Max Deposit BDT 30000.00
+						</p>
 						<input
 							type='number'
 							name='amount'
@@ -285,6 +291,10 @@ export default function PaymentComponent() {
 							onChange={handleChange}
 							className='w-full p-2 border rounded-md'
 						/>
+						<p className='text-sm my-1 text-red-400 '>
+							৩০০০ টাকা ডিপোজিট করলে ৬০০০ টাকা বোনাস ৭০০০ টাকা
+							ডিপোজিট করলে ১০০০০ টাকা বোনাস  (Turn Over) নেই
+						</p>
 					</div>
 
 					<div>
