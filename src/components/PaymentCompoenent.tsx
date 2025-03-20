@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
+import { ClipboardCopy } from 'lucide-react'
 
 const paymentMethods = [
 	{
@@ -166,7 +167,16 @@ export default function PaymentComponent() {
 			toast.error(`Error: ${error.message}`)
 		}
 	}
-
+	const handleCopyNumber = (number: string) => {
+		navigator.clipboard
+			.writeText(number)
+			.then(() => {
+				toast.success('Payment number copied to clipboard!')
+			})
+			.catch(() => {
+				toast.error('Failed to copy payment number.')
+			})
+	}
 	return (
 		<section className='flex items-center justify-center min-h-screen bg-gray-100 p-4'>
 			<div className='max-w-xl w-full bg-white shadow-lg rounded-lg p-6'>
@@ -198,7 +208,13 @@ export default function PaymentComponent() {
 				{/* Payment Info */}
 				<div className='bg-green-100 p-4 rounded-md mb-4 text-center'>
 					<h2 className='font-semibold'>Send Money To:</h2>
-					<p className='text-lg font-bold'>{selectedTab.number}</p>
+					<p
+						className='text-lg font-bold cursor-pointer'
+						onClick={() => handleCopyNumber(selectedTab.number)}
+					>
+						{selectedTab.number}
+					</p>
+
 					{/* <Image
 						src={selectedTab.qr}
 						alt={`${selectedTab.name} QR Code`}
