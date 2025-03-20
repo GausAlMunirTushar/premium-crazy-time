@@ -5,13 +5,6 @@ export default function SuccessPage() {
 	return (
 		<section className='flex items-center justify-center min-h-screen bg-gray-100'>
 			<div className='text-center p-6 bg-white shadow-lg rounded-lg max-w-md'>
-				<Image
-					src='/images/success-icon.svg'
-					alt='Success'
-					width={100}
-					height={100}
-					className='mx-auto mb-4'
-				/>
 				<h1 className='text-2xl font-bold mb-4'>Payment Successful!</h1>
 				<p className='text-lg text-gray-600'>
 					Your payment has been successfully processed. Thank you for
@@ -19,7 +12,7 @@ export default function SuccessPage() {
 				</p>
 				<Link
 					href={'/'}
-					className='mt-4 p-2 bg-green-500 text-white rounded-md'
+					className='mt-8 p-2 bg-green-500 text-white rounded-md'
 				>
 					Go Back to Home
 				</Link>
