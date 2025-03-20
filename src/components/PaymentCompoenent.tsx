@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 
 const paymentMethods = [
 	{
@@ -61,7 +63,7 @@ const bettingSites = [
 export default function PaymentComponent() {
 	const [selectedTab, setSelectedTab] = useState(paymentMethods[0])
 	const [selectedSite, setSelectedSite] = useState('')
-
+	const router = useRouter()
 	const [formData, setFormData] = useState({
 		username: '',
 		emailOrPhone: '',
@@ -86,7 +88,9 @@ export default function PaymentComponent() {
 		}))
 	}
 
-	const handleSubmit = () => {
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault()
+
 		if (
 			!selectedSite ||
 			!formData.username ||
@@ -97,12 +101,58 @@ export default function PaymentComponent() {
 			!formData.dateTime ||
 			!formData.confirmed
 		) {
-			alert('Please fill all fields and confirm the information.')
+			toast.error('Please fill all fields and confirm the information.')
 			return
 		}
-		alert(
-			`Payment submitted for ${selectedSite} using ${selectedTab.name}!`
-		)
+
+		const paymentData = {
+			username: formData.username,
+			emailOrPhone: formData.emailOrPhone,
+			paymentNumber: formData.paymentNumber,
+			amount: formData.amount,
+			transactionId: formData.transactionId,
+			dateTime: formData.dateTime,
+			confirmed: formData.confirmed,
+			bettingSite: selectedSite,
+			paymentMethod: selectedTab.name
+		}
+
+		try {
+			const response = await fetch('/api/payments', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(paymentData)
+			})
+
+			if (!response.ok) {
+				throw new Error('Failed to submit payment.')
+			}
+
+			const result = await response.json()
+
+			// Display success toast
+			toast.success(result.message)
+
+			// Redirect to success page
+			router.push('/success')
+
+			// Optionally reset form after successful submission
+			setFormData({
+				username: '',
+				emailOrPhone: '',
+				paymentNumber: '',
+				amount: '',
+				transactionId: '',
+				dateTime: '',
+				confirmed: false
+			})
+			setSelectedSite('')
+			setSelectedTab(paymentMethods[0]) // Reset payment method
+		} catch (error: string | any) {
+			toast.error(`Error: ${error.message}`)
+		}
 	}
 
 	return (
