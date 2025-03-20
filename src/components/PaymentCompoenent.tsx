@@ -87,6 +87,14 @@ export default function PaymentComponent() {
 					: value
 		}))
 	}
+	const [file, setFile] = useState<File | null>(null) // State to store file
+
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const selectedFile = e.target.files?.[0]
+		if (selectedFile) {
+			setFile(selectedFile)
+		}
+	}
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
@@ -99,7 +107,8 @@ export default function PaymentComponent() {
 			!formData.amount ||
 			!formData.transactionId ||
 			!formData.dateTime ||
-			!formData.confirmed
+			!formData.confirmed ||
+			!file
 		) {
 			toast.error('Please fill all fields and confirm the information.')
 			return
@@ -112,18 +121,24 @@ export default function PaymentComponent() {
 			amount: formData.amount,
 			transactionId: formData.transactionId,
 			dateTime: formData.dateTime,
-			confirmed: formData.confirmed,
+			confirmed: formData.confirmed ? 'true' : 'false', // Convert boolean to string
 			bettingSite: selectedSite,
 			paymentMethod: selectedTab.name
 		}
 
+		// Create a FormData object
+		const formDataToSend = new FormData()
+		Object.keys(paymentData).forEach(key => {
+			const value = paymentData[key as keyof typeof paymentData]
+			// Convert values to string (for booleans and other types) before appending to FormData
+			formDataToSend.append(key, value.toString())
+		})
+		formDataToSend.append('screenshot', file) // Add the screenshot file
+
 		try {
 			const response = await fetch('/api/payments', {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(paymentData)
+				body: formDataToSend // Send FormData, not JSON
 			})
 
 			if (!response.ok) {
@@ -131,14 +146,10 @@ export default function PaymentComponent() {
 			}
 
 			const result = await response.json()
-
-			// Display success toast
 			toast.success(result.message)
-
-			// Redirect to success page
 			router.push('/success')
 
-			// Optionally reset form after successful submission
+			// Reset form
 			setFormData({
 				username: '',
 				emailOrPhone: '',
@@ -150,6 +161,7 @@ export default function PaymentComponent() {
 			})
 			setSelectedSite('')
 			setSelectedTab(paymentMethods[0]) // Reset payment method
+			setFile(null) // Reset file
 		} catch (error: string | any) {
 			toast.error(`Error: ${error.message}`)
 		}
@@ -298,6 +310,18 @@ export default function PaymentComponent() {
 							name='dateTime'
 							value={formData.dateTime}
 							onChange={handleChange}
+							className='w-full p-2 border rounded-md'
+						/>
+					</div>
+					<div>
+						<label className='block font-medium'>
+							Payment Screenshot
+						</label>
+						<input
+							type='file'
+							name='screenshot'
+							accept='image/*'
+							onChange={handleFileChange}
 							className='w-full p-2 border rounded-md'
 						/>
 					</div>

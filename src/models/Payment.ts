@@ -6,10 +6,11 @@ interface IPayment extends Document {
 	paymentNumber: string
 	amount: number
 	transactionId: string
-	dateTime: string
+	dateTime: Date // Change to Date type
 	confirmed: boolean
 	bettingSite: string
 	paymentMethod: string
+	screenshot?: string // Optional field for the screenshot path
 }
 
 const PaymentSchema: Schema = new Schema(
@@ -19,10 +20,11 @@ const PaymentSchema: Schema = new Schema(
 		paymentNumber: { type: String, required: true },
 		amount: { type: Number, required: true },
 		transactionId: { type: String, required: true },
-		dateTime: { type: String, required: true },
+		dateTime: { type: Date, required: true }, // Changed to Date type
 		confirmed: { type: Boolean, required: true },
 		bettingSite: { type: String, required: true },
-		paymentMethod: { type: String, required: true }
+		paymentMethod: { type: String, required: true },
+		screenshot: { type: String } // Optional field for the screenshot path
 	},
 	{
 		timestamps: true
