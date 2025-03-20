@@ -13,6 +13,7 @@ type Payment = {
 	confirmed: boolean
 	bettingSite: string
 	paymentMethod: string
+	screenshot?: string // Screenshot path (optional)
 }
 
 export default function PaymentsPage() {
@@ -61,6 +62,7 @@ export default function PaymentsPage() {
 							<th className='p-3 text-left'>Confirmed</th>
 							<th className='p-3 text-left'>Betting Site</th>
 							<th className='p-3 text-left'>Payment Method</th>
+							<th className='p-3 text-left'>Screenshot</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -89,6 +91,25 @@ export default function PaymentsPage() {
 								</td>
 								<td className='p-3'>{payment.bettingSite}</td>
 								<td className='p-3'>{payment.paymentMethod}</td>
+								<td className='p-3'>
+									{payment.screenshot ? (
+										<a
+											href={payment.screenshot}
+											target='_blank'
+											rel='noopener noreferrer'
+										>
+											<img
+												src={payment.screenshot}
+												alt='Payment Screenshot'
+												className='w-16 h-16 object-cover rounded-lg border'
+											/>
+										</a>
+									) : (
+										<span className='text-gray-500'>
+											No Image
+										</span>
+									)}
+								</td>
 							</tr>
 						))}
 					</tbody>
