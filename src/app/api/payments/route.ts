@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import connectToDatabase from '@/lib/database'
 import Payment from '@/models/Payment'
-import { writeFile } from 'fs/promises'
-import path from 'path'
 
-// POST request to create a payment
 export async function POST(req: NextRequest) {
 	try {
 		// Connect to the database
@@ -25,25 +22,11 @@ export async function POST(req: NextRequest) {
 		const paymentMethod = formData.get('paymentMethod') as string
 		const file = formData.get('screenshot') as File | null
 
-		let screenshotPath = null
+		let screenshotBuffer = null
 
 		if (file) {
-			// Generate a unique filename
-			const fileName = `${Date.now()}-${file.name}`
-			const filePath = path.join(
-				process.cwd(),
-				'public/uploads',
-				fileName
-			)
-
-			// Read the file content
-			const fileBuffer = Buffer.from(await file.arrayBuffer())
-
-			// Write the file to the uploads folder
-			await writeFile(filePath, fileBuffer)
-
-			// Set the screenshot path to be saved in the database
-			screenshotPath = `/uploads/${fileName}`
+			// Convert the file to a Buffer
+			screenshotBuffer = Buffer.from(await file.arrayBuffer())
 		}
 
 		// Create a new payment object
@@ -57,7 +40,7 @@ export async function POST(req: NextRequest) {
 			confirmed,
 			bettingSite,
 			paymentMethod,
-			screenshot: screenshotPath
+			screenshot: screenshotBuffer // Store as binary data
 		})
 
 		// Save the payment to the database
@@ -83,11 +66,19 @@ export async function GET() {
 		// Connect to the database
 		await connectToDatabase()
 
-		// Fetch all payments from the database
+		// Fetch all payments
 		const payments = await Payment.find()
 
+		// Convert Buffer data to Base64 for frontend display
+		const processedPayments = payments.map(payment => ({
+			...payment.toObject(),
+			screenshot: payment.screenshot
+				? `data:image/png;base64,${payment.screenshot.toString('base64')}`
+				: null
+		}))
+
 		// Return the payments in the response
-		return NextResponse.json(payments)
+		return NextResponse.json(processedPayments)
 	} catch (error: any) {
 		console.error('Error fetching payments:', error)
 		return NextResponse.json(

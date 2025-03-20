@@ -24,7 +24,7 @@ const PaymentSchema: Schema = new Schema(
 		confirmed: { type: Boolean, required: true },
 		bettingSite: { type: String, required: true },
 		paymentMethod: { type: String, required: true },
-		screenshot: { type: String } // Optional field for the screenshot path
+		screenshot: { type: Buffer } // Optional field for the screenshot path
 	},
 	{
 		timestamps: true
