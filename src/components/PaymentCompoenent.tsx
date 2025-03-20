@@ -64,6 +64,7 @@ export default function PaymentComponent() {
 
 	const [formData, setFormData] = useState({
 		username: '',
+		emailOrPhone: '',
 		paymentNumber: '',
 		amount: '',
 		transactionId: '',
@@ -89,6 +90,7 @@ export default function PaymentComponent() {
 		if (
 			!selectedSite ||
 			!formData.username ||
+			!formData.emailOrPhone ||
 			!formData.paymentNumber ||
 			!formData.amount ||
 			!formData.transactionId ||
@@ -179,7 +181,19 @@ export default function PaymentComponent() {
 							className='w-full p-2 border rounded-md'
 						/>
 					</div>
-
+					<div>
+						<label className='block font-medium'>
+							Email/Phone Number
+						</label>
+						<input
+							type='text'
+							name='emailOrPhone'
+							placeholder='Enter your email or phone number'
+							value={formData.emailOrPhone}
+							onChange={handleChange}
+							className='w-full p-2 border rounded-md'
+						/>
+					</div>
 					<div>
 						<label className='block font-medium'>
 							Payment Number
