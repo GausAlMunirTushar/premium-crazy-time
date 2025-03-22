@@ -12,7 +12,7 @@ const paymentMethods = [
 		name: 'bKash',
 		color: 'bg-pink-500',
 		logo: '/images/bkash.svg',
-		number: '01610031953',
+		number: '01976401306',
 		qr: '/images/bkash-qr.jpeg'
 	},
 	{
