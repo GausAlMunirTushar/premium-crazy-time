@@ -20,7 +20,7 @@ const paymentMethods = [
 		name: 'Nagad',
 		color: 'bg-red-500',
 		logo: '/images/nagad.svg',
-		number: '01620106996',
+		number: '01976401306',
 		qr: '/images/nagad-qr.png'
 	}
 	// {
